@@ -5,36 +5,42 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-// const loadButton = document.querySelector('.load-more');
+const loadButton = document.querySelector('.load-more');
 let page = 1;
+let totalHits = 0;
 
 formEl.addEventListener('submit', event => {
+  loadButton.classList.add('is-hidden');
   event.preventDefault();
   page = 1;
   submitForm();
+  loadButton.classList.remove('is-hidden');
 });
 
-// loadButton.addEventListener('click', () => {
-//   fetchImages(formEl.firstElementChild.value, page)
-//     .then(function (response) {
-//       return response;
-//     })
-//     .then(function (images) {
-//       createGallery(images.hits);
-//       createSimpleLightbox();
-//       page++;
-//     })
-//     .catch(function (e) {
-//       console.log(e);
-//     });
-// });
+loadButton.addEventListener('click', () => {
+  fetchImages(formEl.firstElementChild.value, page)
+    .then(function (response) {
+      return response;
+    })
+    .then(function (images) {
+      createGallery(images.hits);
+      createSimpleLightbox();
+      page++;
+      if (totalHits === galleryEl.childNodes.length) {
+        failMessage(true);
+        loadButton.classList.add('is-hidden');
+      }
+    })
+    .catch(function (e) {
+      console.log(e);
+    });
+});
 
 function createGallery(images) {
   if (images.length === 0) {
-    failMessage();
+    failMessage(false);
     return;
   }
-  totalMessage(1000);
   const cardsArray = createCards(images);
   galleryEl.append(...cardsArray);
 }
@@ -73,22 +79,30 @@ function submitForm() {
   galleryEl.innerHTML = '';
   fetchImages(formEl.firstElementChild.value, page)
     .then(function (response) {
+      totalMessage(response.totalHits);
+      totalHits = response.totalHits;
       return response;
     })
     .then(function (images) {
       createGallery(images.hits);
-      createSimpleLightbox();
       page++;
+      createSimpleLightbox();
     })
     .catch(function (e) {
       console.log(e);
     });
 }
 
-function failMessage() {
-  new Notiflix.Notify.failure(
-    'Sorry, there are no images matching your search query. Please try again.'
-  );
+function failMessage(loadAll) {
+  if (loadAll) {
+    new Notiflix.Notify.failure(
+      "We're sorry, but you've reached the end of search results."
+    );
+  } else {
+    new Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+  }
 }
 
 function totalMessage(totalHits) {
