@@ -1,21 +1,33 @@
 import Notiflix from 'notiflix';
 import { fetchImages } from './searcher-api';
+import simpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
+// const loadButton = document.querySelector('.load-more');
+let page = 1;
 
-fetchImages('sheep')
-  .then(function (response) {
-    return response;
-  })
-  .then(function (images) {
-    return images.hits;
-  })
-  .catch(function (e) {
-    console.log(e);
-  });
+formEl.addEventListener('submit', event => {
+  event.preventDefault();
+  page = 1;
+  submitForm();
+});
 
-formEl.addEventListener('submit', buttonClicked);
+// loadButton.addEventListener('click', () => {
+//   fetchImages(formEl.firstElementChild.value, page)
+//     .then(function (response) {
+//       return response;
+//     })
+//     .then(function (images) {
+//       createGallery(images.hits);
+//       createSimpleLightbox();
+//       page++;
+//     })
+//     .catch(function (e) {
+//       console.log(e);
+//     });
+// });
 
 function createGallery(images) {
   if (images.length === 0) {
@@ -23,7 +35,6 @@ function createGallery(images) {
     return;
   }
   totalMessage(1000);
-  console.log(images);
   const cardsArray = createCards(images);
   galleryEl.append(...cardsArray);
 }
@@ -58,15 +69,16 @@ function createCardsInfo(image) {
   return infoDiv;
 }
 
-function buttonClicked(event) {
-  event.preventDefault();
+function submitForm() {
   galleryEl.innerHTML = '';
-  fetchImages(formEl.firstElementChild.value)
+  fetchImages(formEl.firstElementChild.value, page)
     .then(function (response) {
       return response;
     })
     .then(function (images) {
       createGallery(images.hits);
+      createSimpleLightbox();
+      page++;
     })
     .catch(function (e) {
       console.log(e);
@@ -81,4 +93,10 @@ function failMessage() {
 
 function totalMessage(totalHits) {
   new Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+}
+
+function createSimpleLightbox() {
+  const lightbox = new simpleLightbox('.gallery img', {
+    sourceAttr: 'data-big-img',
+  });
 }
