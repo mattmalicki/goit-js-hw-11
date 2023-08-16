@@ -9,8 +9,15 @@
   </head>
   <body>
     <div class="searcher">
-      <input type="text" class="searcher__input" />
-      <button type="button" class="searcher__button">Search</button>
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit">Search</button>
+      </form>
     </div>
     <div class="gallery"></div>
     <script type="module" src="./js/main.js"></script>
