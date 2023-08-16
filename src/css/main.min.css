@@ -1,0 +1,1 @@
+*{margin:0;padding:0}body{padding:0 20px}.gallery{display:flex;justify-content:center;align-items:center;gap:20px}.photo-card{flex-basis:calc((100% - 60px)/4)}.card-info{display:flex;flex-wrap:nowrap;gap:10px}/*# sourceMappingURL=main.min.css.map */

@@ -1,3 +1,12 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 0 20px;
+}
+
 .gallery {
   display: flex;
   justify-content: center;
@@ -13,4 +22,4 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
-}
+}/*# sourceMappingURL=main.css.map */
