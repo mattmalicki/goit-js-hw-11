@@ -8,16 +8,32 @@
 
 .photo-card {
   flex-basis: calc((100% - 60px) / 4);
+  border: 2px solid #fcafaf;
+  border-radius: 15px;
   overflow: hidden;
+  transition: 500ms transform;
   & > img {
     width: 100%;
     height: 200px;
     object-fit: cover;
   }
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
+    transition: 500ms transform;
+  }
 }
 
-.card-info {
+.info {
+  padding: 10px;
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
+  &-item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
 }
