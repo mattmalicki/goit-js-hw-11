@@ -68,6 +68,7 @@ function createCardsInfo(image) {
     infoEl.classList.add('info-item');
     const textInfo = image[`${info}`];
     const icon = iconsPath[`${info}`];
+    console.log(iconsPath[`${info}`]);
     infoEl.insertAdjacentHTML(
       'beforeend',
       `<svg width="15" height="15" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
