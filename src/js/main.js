@@ -1,11 +1,12 @@
 import Notiflix from 'notiflix';
 import { fetchImages } from './searcher-api';
+import { scroll } from './scrolling';
 import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-const loadButton = document.querySelector('.load-more');
+const loader = document.querySelector('.load-more');
 const iconsPath = {
   likes: './img/icons.svg#icon-likes',
   views: './img/icons.svg#icon-eye',
@@ -16,25 +17,23 @@ const obj = {
   page: 1,
   totalHits: 0,
   formValue: '',
+  galleryLength: 0,
 };
 const lightbox = new simpleLightbox('.gallery img', {
   sourceAttr: 'data-big-img',
 });
 
 formEl.addEventListener('submit', event => {
-  loadButton.classList.add('is-hidden');
-  obj.formValue = formEl.firstElementChild.value;
   event.preventDefault();
+  loader.classList.remove('is-hidden');
+  obj.formValue = formEl.firstElementChild.value;
   obj.page = 1;
   submitForm(obj.formValue, obj.page);
 });
 
-loadButton.addEventListener('click', () => {
-  loadMore(obj.formValue, obj.page);
-});
-
-window.addEventListener('scroll', event => {
-  scroll();
+window.addEventListener('scroll', () => {
+  loader.classList.remove('is-hidden');
+  scroll(loadMore);
 });
 
 // generating images
@@ -96,28 +95,34 @@ function submitForm(value, page) {
     .then(function (images) {
       createGallery(images.hits);
       obj.page++;
+      obj.galleryLength = galleryEl.childNodes.length;
       lightbox.refresh();
+      loader.classList.add('is-hidden');
     })
     .catch(function (e) {
       console.log(e);
     });
 }
 
-function loadMore(value, page) {
-  fetchImages(value, page)
+function loadMore() {
+  fetchImages(obj.formValue, obj.page)
+    .then(function (response) {
+      return response;
+    })
     .then(function (response) {
       return response;
     })
     .then(function (images) {
-      if (obj.totalHits === galleryEl.childNodes.length) {
+      if (obj.totalHits === obj.galleryLength) {
         failMessage(true);
-        loadButton.classList.add('is-hidden');
-        window.removeEventListener('scroll', scroll());
+        loader.classList.add('is-hidden');
         return;
       }
       createGallery(images.hits);
+      obj.galleryLength = galleryEl.childNodes.length;
       lightbox.refresh();
-      page++;
+      obj.page++;
+      loader.classList.add('is-hidden');
     })
     .catch(function (e) {
       console.log(e);
@@ -139,17 +144,16 @@ function failMessage(loadAll) {
 }
 
 function totalMessage(totalHits) {
-  // loadButton.classList.remove('is-hidden');
   new Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
 }
 
-function scroll() {
-  const height = document.querySelector('body').offsetHeight;
-  const scrollTop = window.scrollY;
-  const windowH = window.innerHeight;
+// function scroll() {
+//   const height = document.querySelector('body').offsetHeight;
+//   const scrollTop = window.scrollY;
+//   const windowH = window.innerHeight;
+//   const scrolled = Math.round(windowH + scrollTop)
 
-  if (height === Math.round(windowH + scrollTop)) {
-    loadMore(obj.formValue, obj.page);
-  }
-  return { height, scrollTop, windowH, sum: scrollTop + windowH };
-}
+//   if (height === scrolled) {
+//     loadMore(obj.formValue, obj.page);
+//   }
+// }
