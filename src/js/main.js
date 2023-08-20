@@ -25,12 +25,16 @@ formEl.addEventListener('submit', event => {
   loadButton.classList.add('is-hidden');
   obj.formValue = formEl.firstElementChild.value;
   event.preventDefault();
-  page = 1;
+  obj.page = 1;
   submitForm(obj.formValue, obj.page);
 });
 
 loadButton.addEventListener('click', () => {
   loadMore(obj.formValue, obj.page);
+});
+
+window.addEventListener('scroll', event => {
+  scroll();
 });
 
 // generating images
@@ -68,7 +72,6 @@ function createCardsInfo(image) {
     infoEl.classList.add('info-item');
     const textInfo = image[`${info}`];
     const icon = iconsPath[`${info}`];
-    console.log(iconsPath[`${info}`]);
     infoEl.insertAdjacentHTML(
       'beforeend',
       `<svg width="30" height="30" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
@@ -106,13 +109,15 @@ function loadMore(value, page) {
       return response;
     })
     .then(function (images) {
-      createGallery(images.hits);
-      lightbox.refresh();
-      page++;
       if (obj.totalHits === galleryEl.childNodes.length) {
         failMessage(true);
         loadButton.classList.add('is-hidden');
+        window.removeEventListener('scroll', scroll());
+        return;
       }
+      createGallery(images.hits);
+      lightbox.refresh();
+      page++;
     })
     .catch(function (e) {
       console.log(e);
@@ -134,6 +139,17 @@ function failMessage(loadAll) {
 }
 
 function totalMessage(totalHits) {
-  loadButton.classList.remove('is-hidden');
+  // loadButton.classList.remove('is-hidden');
   new Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+}
+
+function scroll() {
+  const height = document.querySelector('body').offsetHeight;
+  const scrollTop = window.scrollY;
+  const windowH = window.innerHeight;
+
+  if (height === Math.round(windowH + scrollTop)) {
+    loadMore(obj.formValue, obj.page);
+  }
+  return { height, scrollTop, windowH, sum: scrollTop + windowH };
 }
