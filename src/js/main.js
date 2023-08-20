@@ -71,7 +71,7 @@ function createCardsInfo(image) {
     console.log(iconsPath[`${info}`]);
     infoEl.insertAdjacentHTML(
       'beforeend',
-      `<svg width="15" height="15" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
+      `<svg width="30" height="30" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
     );
     infoDiv.append(infoEl);
   });
