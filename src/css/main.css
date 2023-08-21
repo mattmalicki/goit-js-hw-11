@@ -123,8 +123,12 @@ body {
   align-items: center;
 }
 
-.load-more {
+.loader {
+  height: 100px;
   margin: 0 auto;
+}
+
+.load-more {
   color: #fff;
   font-size: 10px;
   width: 1em;

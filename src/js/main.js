@@ -6,7 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-const loader = document.querySelector('.load-more');
+const loader = document.querySelector('.loader');
 const iconsPath = {
   likes: './img/icons.svg#icon-likes',
   views: './img/icons.svg#icon-eye',
