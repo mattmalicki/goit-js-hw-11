@@ -1,14 +1,14 @@
 :root {
-  --background-color: #262626;
-  --background-color-card: #000;
+  --background-color: #262626bb;
+  --background-color-card: #171414ac;
   --font-color: #fcafaf;
   --border-color: #fcafaf;
   --card-size-pc: calc((100% - 90px) / 4);
   --card-size-tab: calc((100% - 60px) / 3);
   --card-size-mobile: calc((100% - 30px) / 2);
-  --font-size-pc: 32px;
-  --font-size-tab: 26px;
-  --font-size-mobile: 20px;
+  --font-size-pc: 18px;
+  --font-size-tab: 16px;
+  --font-size-mobile: 12px;
 }
 
 * {
@@ -42,6 +42,14 @@
 .icon {
   fill: black;
   color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 .gallery {
@@ -70,6 +78,7 @@
 }
 
 .photo-card {
+  background-color: var(--background-color-card);
   border: 2px solid var(--border-color);
   border-radius: 15px;
   overflow: hidden;
@@ -115,6 +124,7 @@
 }
 
 .load-more {
+  margin: 0 auto;
   color: #fff;
   font-size: 10px;
   width: 1em;

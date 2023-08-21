@@ -1,6 +1,6 @@
 :root {
-  --background-color: #262626;
-  --background-color-card: #000;
+  --background-color: #262626bb;
+  --background-color-card: #171414ac;
   --font-color: #fcafaf;
   --border-color: #fcafaf;
 
@@ -8,7 +8,7 @@
   --card-size-tab: calc((100% - 60px) / 3);
   --card-size-mobile: calc((100% - 30px) / 2);
 
-  --font-size-pc: 32px;
-  --font-size-tab: 26px;
-  --font-size-mobile: 20px;
+  --font-size-pc: 18px;
+  --font-size-tab: 16px;
+  --font-size-mobile: 12px;
 }

@@ -23,4 +23,12 @@
 .icon {
   fill: black;
   color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
 }

@@ -32,7 +32,6 @@ formEl.addEventListener('submit', event => {
 });
 
 window.addEventListener('scroll', () => {
-  loader.classList.remove('is-hidden');
   scroll(loadMore);
 });
 
@@ -107,9 +106,7 @@ function submitForm(value, page) {
 function loadMore() {
   fetchImages(obj.formValue, obj.page)
     .then(function (response) {
-      return response;
-    })
-    .then(function (response) {
+      loader.classList.remove('is-hidden');
       return response;
     })
     .then(function (images) {
@@ -146,14 +143,3 @@ function failMessage(loadAll) {
 function totalMessage(totalHits) {
   new Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
 }
-
-// function scroll() {
-//   const height = document.querySelector('body').offsetHeight;
-//   const scrollTop = window.scrollY;
-//   const windowH = window.innerHeight;
-//   const scrolled = Math.round(windowH + scrollTop)
-
-//   if (height === scrolled) {
-//     loadMore(obj.formValue, obj.page);
-//   }
-// }
