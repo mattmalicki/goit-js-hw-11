@@ -1,0 +1,14 @@
+:root {
+  --background-color: #262626;
+  --background-color-card: #000;
+  --font-color: #fcafaf;
+  --border-color: #fcafaf;
+
+  --card-size-pc: calc((100% - 90px) / 4);
+  --card-size-tab: calc((100% - 60px) / 3);
+  --card-size-mobile: calc((100% - 30px) / 2);
+
+  --font-size-pc: 32px;
+  --font-size-tab: 26px;
+  --font-size-mobile: 20px;
+}

@@ -1,12 +1,42 @@
+:root {
+  --background-color: #262626;
+  --background-color-card: #000;
+  --font-color: #fcafaf;
+  --border-color: #fcafaf;
+  --card-size-pc: calc((100% - 90px) / 4);
+  --card-size-tab: calc((100% - 60px) / 3);
+  --card-size-mobile: calc((100% - 30px) / 2);
+  --font-size-pc: 32px;
+  --font-size-tab: 26px;
+  --font-size-mobile: 20px;
+}
+
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 15px;
+}
+@media screen and (max-width: 767.99px) {
+  .container {
+    max-width: 700px;
+    padding: 5px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .container {
+    max-width: 1100px;
+    padding: 15px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+    padding: 15px;
+  }
 }
 
 .icon {
@@ -19,16 +49,46 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  width: 100%;
+}
+@media screen and (max-width: 767.99px) {
+  .gallery {
+    gap: 20px;
+    font-size: var(--font-size-mobile);
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .gallery {
+    gap: 15px;
+    font-size: var(--font-size-tab);
+  }
+}
+@media screen and (min-width: 1280px) {
+  .gallery {
+    gap: 20px;
+    font-size: var(--font-size-pc);
+  }
 }
 
 .photo-card {
-  flex-basis: calc((100% - 80px) / 4);
-  border: 2px solid #fcafaf;
+  border: 2px solid var(--border-color);
   border-radius: 15px;
   overflow: hidden;
   transition: 500ms transform;
+}
+@media screen and (max-width: 767.99px) {
+  .photo-card {
+    flex-basis: var(--card-size-mobile);
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .photo-card {
+    flex-basis: var(--card-size-tab);
+  }
+}
+@media screen and (min-width: 1280px) {
+  .photo-card {
+    flex-basis: var(--card-size-pc);
+  }
 }
 .photo-card > img {
   width: 100%;

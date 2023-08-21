@@ -3,13 +3,31 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  width: 100%;
+  @include phone {
+    gap: 20px;
+    font-size: var(--font-size-mobile);
+  }
+  @include tablet {
+    gap: 15px;
+    font-size: var(--font-size-tab);
+  }
+  @include desktop {
+    gap: 20px;
+    font-size: var(--font-size-pc);
+  }
 }
 
 .photo-card {
-  flex-basis: calc((100% - 80px) / 4);
-  border: 2px solid #fcafaf;
+  @include phone {
+    flex-basis: var(--card-size-mobile);
+  }
+  @include tablet {
+    flex-basis: var(--card-size-tab);
+  }
+  @include desktop {
+    flex-basis: var(--card-size-pc);
+  }
+  border: 2px solid var(--border-color);
   border-radius: 15px;
   overflow: hidden;
   transition: 500ms transform;
