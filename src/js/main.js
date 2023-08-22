@@ -88,7 +88,7 @@ function submitForm(value, page) {
   fetchImages(value, page)
     .then(function (response) {
       if (response.totalHits === 0) {
-        failMessage(false);
+        failMessage(true);
         throw new Error('No images!');
       }
       totalMessage(response.totalHits);
@@ -118,7 +118,7 @@ function loadMore() {
     })
     .then(function (images) {
       if (obj.totalHits === obj.galleryLength) {
-        failMessage(true);
+        failMessage(false);
         windowScrollMore(true);
         windowScrollEnd(false);
         throw new Error('No more images!');
@@ -138,14 +138,22 @@ function loadMore() {
 
 // Notiflix messages
 
-function failMessage(loadAll) {
-  if (loadAll) {
+function failMessage(needMore) {
+  if (needMore) {
     new Notiflix.Notify.failure(
-      "We're sorry, but you've reached the end of search results."
+      'Sorry, there are no images matching your search query. Please try again.',
+      {
+        clickToClose: true,
+        pauseOnHover: false,
+      }
     );
   } else {
     new Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
+      "We're sorry, but you've reached the end of search results.",
+      {
+        clickToClose: true,
+        pauseOnHover: false,
+      }
     );
   }
 }
