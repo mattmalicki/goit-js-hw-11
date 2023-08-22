@@ -173,7 +173,9 @@ function windowScrollEnd(remove) {
 function windowScrollMore(remove) {
   if (!remove) {
     window.addEventListener('scroll', scrollMore);
+    window.addEventListener('touchmove', scrollMore);
   } else {
     window.removeEventListener('scroll', scrollMore);
+    window.removeEventListener('touchmove', scrollMore);
   }
 }
