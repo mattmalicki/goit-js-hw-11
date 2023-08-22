@@ -111,9 +111,10 @@ function submitForm(value, page) {
 }
 
 function loadMore() {
+  toggleLoader();
+
   fetchImages(obj.formValue, obj.page)
     .then(function (response) {
-      toggleLoader();
       return response;
     })
     .then(function (images) {
