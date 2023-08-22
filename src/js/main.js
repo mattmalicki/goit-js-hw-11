@@ -23,6 +23,14 @@ const lightbox = new simpleLightbox('.gallery img', {
   sourceAttr: 'data-big-img',
 });
 
+const scrollMore = () => {
+  scroll(loadMore);
+};
+
+const scrollEnd = () => {
+  scroll(failMessage);
+};
+
 formEl.addEventListener('submit', event => {
   event.preventDefault();
   loader.classList.remove('is-hidden');
@@ -31,16 +39,9 @@ formEl.addEventListener('submit', event => {
   submitForm(obj.formValue, obj.page);
 });
 
-window.addEventListener('scroll', () => {
-  scroll(loadMore);
-});
-
 // generating images
 
 function createGallery(images) {
-  if (images.length === 0) {
-    return;
-  }
   const cardsArray = createCards(images);
   galleryEl.append(...cardsArray);
 }
@@ -82,12 +83,15 @@ function createCardsInfo(image) {
 // button functions
 
 function submitForm(value, page) {
-  galleryEl.innerHTML = '';
+  windowScrollEnd(true);
+  clearGallery();
   fetchImages(value, page)
     .then(function (response) {
-      response.totalHits === 0
-        ? failMessage(false)
-        : totalMessage(response.totalHits);
+      if (response.totalHits === 0) {
+        failMessage(false);
+        throw new Error('No images!');
+      }
+      totalMessage(response.totalHits);
       obj.totalHits = response.totalHits;
       return response;
     })
@@ -96,33 +100,39 @@ function submitForm(value, page) {
       obj.page++;
       obj.galleryLength = galleryEl.childNodes.length;
       lightbox.refresh();
-      loader.classList.add('is-hidden');
+      windowScrollMore(false);
     })
     .catch(function (e) {
       console.log(e);
+    })
+    .finally(function () {
+      toggleLoader();
     });
 }
 
 function loadMore() {
   fetchImages(obj.formValue, obj.page)
     .then(function (response) {
-      loader.classList.remove('is-hidden');
+      toggleLoader();
       return response;
     })
     .then(function (images) {
       if (obj.totalHits === obj.galleryLength) {
         failMessage(true);
-        loader.classList.add('is-hidden');
-        return;
+        windowScrollMore(true);
+        windowScrollEnd(false);
+        throw new Error('No more images!');
       }
       createGallery(images.hits);
       obj.galleryLength = galleryEl.childNodes.length;
       lightbox.refresh();
       obj.page++;
-      loader.classList.add('is-hidden');
     })
     .catch(function (e) {
       console.log(e);
+    })
+    .finally(function () {
+      toggleLoader();
     });
 }
 
@@ -142,4 +152,28 @@ function failMessage(loadAll) {
 
 function totalMessage(totalHits) {
   new Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+}
+
+function toggleLoader() {
+  loader.classList.toggle('is-hidden');
+}
+
+function clearGallery() {
+  galleryEl.innerHTML = '';
+}
+
+function windowScrollEnd(remove) {
+  if (!remove) {
+    window.addEventListener('scroll', scrollEnd);
+  } else {
+    window.removeEventListener('scroll', scrollEnd);
+  }
+}
+
+function windowScrollMore(remove) {
+  if (!remove) {
+    window.addEventListener('scroll', scrollMore);
+  } else {
+    window.removeEventListener('scroll', scrollMore);
+  }
 }
