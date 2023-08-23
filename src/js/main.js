@@ -3,9 +3,6 @@ import { fetchImages } from './searcher-api';
 import { scroll } from './scrolling';
 import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import icons from '../img/icons.svg';
-
-console.log(toString(icons));
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
@@ -74,10 +71,11 @@ function createCardsInfo(image) {
     infoEl.classList.add('info-item');
     const textInfo = image[`${info}`];
     const icon = iconsPath[`${info}`];
-    infoEl.insertAdjacentHTML(
-      'beforeend',
-      `<svg width="30" height="30" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
-    );
+    const svg = document.createElementNS(`${icon}`, 'svg');
+    svg.setAttribute('width', 30);
+    svg.setAttribute('height', 30);
+    infoEl.append(svg);
+    infoEl.insertAdjacentHTML('beforeend', `<p>${textInfo}</p>`);
     infoDiv.append(infoEl);
   });
   return infoDiv;
