@@ -42,6 +42,7 @@
 .icon {
   fill: black;
   color: black;
+  stroke: black;
   display: flex;
   justify-content: center;
   align-items: center;

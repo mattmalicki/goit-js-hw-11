@@ -3,6 +3,9 @@ import { fetchImages } from './searcher-api';
 import { scroll } from './scrolling';
 import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import icons from '../img/icons.svg';
+
+console.log(toString(icons));
 
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
