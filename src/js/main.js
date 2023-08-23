@@ -71,11 +71,10 @@ function createCardsInfo(image) {
     infoEl.classList.add('info-item');
     const textInfo = image[`${info}`];
     const icon = iconsPath[`${info}`];
-    const svg = document.createElementNS(`${icon}`, 'svg');
-    svg.setAttribute('width', 30);
-    svg.setAttribute('height', 30);
-    infoEl.append(svg);
-    infoEl.insertAdjacentHTML('beforeend', `<p>${textInfo}</p>`);
+    infoEl.insertAdjacentHTML(
+      'beforeend',
+      `<svg width="30" height="30" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
+    );
     infoDiv.append(infoEl);
   });
   return infoDiv;
