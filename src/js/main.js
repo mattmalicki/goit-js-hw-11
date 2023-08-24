@@ -86,7 +86,7 @@ function createCardsInfo(image) {
     // );
     infoEl.insertAdjacentHTML(
       'beforeend',
-      `<svg width="30" height="30" viewBox="0 0 32 32" class="icon">${icon}</svg><p>${textInfo}</p>`
+      `<svg viewBox="0 0 32 32" class="icon">${icon}</svg><p>${textInfo}</p>`
     );
     infoDiv.append(infoEl);
   });

@@ -1,8 +1,8 @@
 :root {
   --background-color: #262626bb;
   --background-color-card: #171414ac;
-  --font-color: #fcafaf;
-  --border-color: #fcafaf;
+  --font-color: #a89090;
+  --border-color: #a89090;
   --card-size-pc: calc((100% - 90px) / 4);
   --card-size-tab: calc((100% - 60px) / 3);
   --card-size-mobile: calc((100% - 30px) / 2);
@@ -41,6 +41,24 @@
 
 .icon {
   fill: currentColor;
+}
+@media screen and (max-width: 767.99px) {
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 body {
@@ -109,11 +127,13 @@ body {
   padding: 10px;
   display: flex;
   flex-wrap: nowrap;
+  justify-content: space-evenly;
   gap: 10px;
 }
 .info-item {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   gap: 5px;
   justify-content: center;
   align-items: center;

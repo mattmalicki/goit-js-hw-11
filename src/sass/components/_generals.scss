@@ -22,6 +22,18 @@
 
 .icon {
   fill: currentColor;
+  @include phone {
+    width: 20px;
+    height: 20px;
+  }
+  @include tablet {
+    width: 25px;
+    height: 25px;
+  }
+  @include desktop {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 body {
