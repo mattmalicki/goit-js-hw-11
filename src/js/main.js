@@ -9,10 +9,10 @@ const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const iconsPath = {
-  likes: './img/icons.svg#icon-likes',
-  views: './img/icons.svg#icon-eye',
-  comments: './img/icons.svg#icon-comment',
-  downloads: './img/icons.svg#icon-download',
+  likes: './images/icons.svg#icon-likes',
+  views: './images/icons.svg#icon-eye',
+  comments: './images/icons.svg#icon-comment',
+  downloads: './images/icons.svg#icon-download',
 };
 const obj = {
   page: 1,
