@@ -120,31 +120,30 @@ async function submitForm() {
   }
 }
 
-function loadMore() {
+async function loadMore() {
   toggleLoader();
-
-  fetchImages(obj.formValue, obj.page)
-    .then(function (response) {
-      return response;
-    })
-    .then(function (images) {
-      if (obj.totalHits === obj.galleryLength) {
-        failMessage(false);
-        windowScrollMore(true);
-        windowScrollEnd(false);
-        throw new Error('No more images!');
-      }
-      createGallery(images.hits);
-      obj.galleryLength = galleryEl.childNodes.length;
-      lightbox.refresh();
-      obj.page++;
-    })
-    .catch(function (e) {
-      console.log(e);
-    })
-    .finally(function () {
-      toggleLoader();
-    });
+  try {
+    fetchImages(obj.formValue, obj.page)
+      .then(function (response) {
+        return response;
+      })
+      .then(function (images) {
+        if (obj.totalHits === obj.galleryLength) {
+          failMessage(false);
+          windowScrollMore(true);
+          windowScrollEnd(false);
+          throw new Error('No more images!');
+        }
+        createGallery(images.hits);
+        obj.galleryLength = galleryEl.childNodes.length;
+        lightbox.refresh();
+        obj.page++;
+      });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    toggleLoader();
+  }
 }
 
 // Notiflix messages
