@@ -7,10 +7,10 @@ const ORIENTATION = 'horizontal';
 const SAFESEARCH = 'true';
 const PER_PAGE = '40';
 
-export async function fetchImages(word, page) {
+export async function fetchImages(q, page) {
   try {
     const response = await axios.get(
-      `${DEFAULT_URL}/?key=${API_KEY}&q=${word}&image-type=${IMAGE_TYPE}&orientation=${ORIENTATION}&safesearch=${SAFESEARCH}&page=${page}&per_page=${PER_PAGE}`
+      `${DEFAULT_URL}/?key=${API_KEY}&q=${q}&image-type=${IMAGE_TYPE}&orientation=${ORIENTATION}&safesearch=${SAFESEARCH}&page=${page}&per_page=${PER_PAGE}`
     );
     const obj = await response.data;
     return obj;

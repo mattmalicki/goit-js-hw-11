@@ -1,4 +1,5 @@
 import Notiflix from 'notiflix';
+import axios from 'axios';
 import { fetchImages } from './searcher-api';
 import { scroll } from './scrolling';
 import simpleLightbox from 'simplelightbox';
@@ -45,7 +46,7 @@ formEl.addEventListener('submit', event => {
   loader.classList.remove('is-hidden');
   obj.formValue = formEl.firstElementChild.value;
   obj.page = 1;
-  submitForm(obj.formValue, obj.page);
+  submitForm();
 });
 
 // generating images
@@ -80,10 +81,6 @@ function createCardsInfo(image) {
     infoEl.classList.add('info-item');
     const textInfo = image[`${info}`];
     const icon = iconsPath[`${info}`];
-    // infoEl.insertAdjacentHTML(
-    //   'beforeend',
-    //   `<svg width="30" height="30" class="icon"><use href="${icon}"></use></svg><p>${textInfo}</p>`
-    // );
     infoEl.insertAdjacentHTML(
       'beforeend',
       `<svg viewBox="0 0 32 32" class="icon">${icon}</svg><p>${textInfo}</p>`
@@ -95,32 +92,32 @@ function createCardsInfo(image) {
 
 // button functions
 
-function submitForm(value, page) {
+async function submitForm() {
   windowScrollEnd(true);
   clearGallery();
-  fetchImages(value, page)
-    .then(function (response) {
-      if (response.totalHits === 0) {
-        failMessage(true);
-        throw new Error('No images!');
-      }
-      totalMessage(response.totalHits);
-      obj.totalHits = response.totalHits;
-      return response;
-    })
-    .then(function (images) {
-      createGallery(images.hits);
-      obj.page++;
-      obj.galleryLength = galleryEl.childNodes.length;
-      lightbox.refresh();
-      windowScrollMore(false);
-    })
-    .catch(function (e) {
-      console.log(e);
-    })
-    .finally(function () {
-      toggleLoader();
-    });
+  try {
+    fetchImages(obj.formValue, obj.page)
+      .then(function (response) {
+        if (response.totalHits === 0) {
+          failMessage(true);
+          throw new Error('No images!');
+        }
+        totalMessage(response.totalHits);
+        obj.totalHits = response.totalHits;
+        return response;
+      })
+      .then(function (images) {
+        createGallery(images.hits);
+        obj.page++;
+        obj.galleryLength = galleryEl.childNodes.length;
+        lightbox.refresh();
+        windowScrollMore(false);
+      });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    toggleLoader();
+  }
 }
 
 function loadMore() {
