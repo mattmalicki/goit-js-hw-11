@@ -93,26 +93,28 @@ function createCardsInfo(image) {
 // button functions
 
 async function submitForm() {
-  windowScrollEnd(true);
-  clearGallery();
   try {
-    fetchImages(obj.formValue, obj.page)
-      .then(function (response) {
-        if (response.totalHits === 0) {
-          failMessage(true);
-          throw new Error('No images!');
-        }
-        totalMessage(response.totalHits);
-        obj.totalHits = response.totalHits;
-        return response;
-      })
-      .then(function (images) {
-        createGallery(images.hits);
-        obj.page++;
-        obj.galleryLength = galleryEl.childNodes.length;
-        lightbox.refresh();
-        windowScrollMore(false);
-      });
+    windowScrollEnd(true);
+    clearGallery();
+    setTimeout(() => {
+      fetchImages(obj.formValue, obj.page)
+        .then(function (response) {
+          if (response.totalHits === 0) {
+            failMessage(true);
+            throw new Error('No images!');
+          }
+          totalMessage(response.totalHits);
+          obj.totalHits = response.totalHits;
+          return response;
+        })
+        .then(function (images) {
+          createGallery(images.hits);
+          obj.page++;
+          obj.galleryLength = galleryEl.childNodes.length;
+          lightbox.refresh();
+          windowScrollMore(false);
+        });
+    }, 1000);
   } catch (e) {
     console.log(e);
   } finally {
@@ -121,24 +123,26 @@ async function submitForm() {
 }
 
 async function loadMore() {
-  toggleLoader();
   try {
-    fetchImages(obj.formValue, obj.page)
-      .then(function (response) {
-        return response;
-      })
-      .then(function (images) {
-        if (obj.totalHits === obj.galleryLength) {
-          failMessage(false);
-          windowScrollMore(true);
-          windowScrollEnd(false);
-          throw new Error('No more images!');
-        }
-        createGallery(images.hits);
-        obj.galleryLength = galleryEl.childNodes.length;
-        lightbox.refresh();
-        obj.page++;
-      });
+    toggleLoader();
+    setTimeout(() => {
+      fetchImages(obj.formValue, obj.page)
+        .then(function (response) {
+          return response;
+        })
+        .then(function (images) {
+          if (obj.totalHits === obj.galleryLength) {
+            failMessage(false);
+            windowScrollMore(true);
+            windowScrollEnd(false);
+            throw new Error('No more images!');
+          }
+          createGallery(images.hits);
+          obj.galleryLength = galleryEl.childNodes.length;
+          lightbox.refresh();
+          obj.page++;
+        });
+    }, 1000);
   } catch (e) {
     console.log(e);
   } finally {
