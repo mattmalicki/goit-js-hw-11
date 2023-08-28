@@ -66,6 +66,67 @@ body {
   color: var(--font-color);
 }
 
+.searcher {
+  justify-content: center;
+}
+@media screen and (max-width: 767.99px) {
+  .searcher {
+    height: 200px;
+    padding: 5px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .searcher {
+    height: 150px;
+    padding: 15px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .searcher {
+    height: 300px;
+    padding: 15px;
+  }
+}
+
+.search-form > input {
+  padding: 5px;
+  border-radius: 15px;
+}
+@media screen and (max-width: 767.99px) {
+  .search-form > input {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .search-form > input {
+    font-size: 23px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .search-form > input {
+    font-size: 26px;
+  }
+}
+.search-form > button {
+  padding: 5px;
+  border-radius: 15px;
+}
+@media screen and (max-width: 767.99px) {
+  .search-form > button {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1279.99px) {
+  .search-form > button {
+    font-size: 23px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .search-form > button {
+    font-size: 26px;
+  }
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;

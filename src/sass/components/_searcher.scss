@@ -1,0 +1,45 @@
+.searcher {
+  justify-content: center;
+  @include phone {
+    height: 200px;
+    padding: 5px;
+  }
+  @include tablet {
+    height: 150px;
+    padding: 15px;
+  }
+  @include desktop {
+    height: 300px;
+    padding: 15px;
+  }
+}
+
+.search-form {
+  & > input {
+    padding: 5px;
+    border-radius: 15px;
+
+    @include phone {
+      font-size: 18px;
+    }
+    @include tablet {
+      font-size: 23px;
+    }
+    @include desktop {
+      font-size: 26px;
+    }
+  }
+  & > button {
+    padding: 5px;
+    border-radius: 15px;
+    @include phone {
+      font-size: 18px;
+    }
+    @include tablet {
+      font-size: 23px;
+    }
+    @include desktop {
+      font-size: 26px;
+    }
+  }
+}

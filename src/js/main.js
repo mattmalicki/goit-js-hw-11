@@ -1,5 +1,4 @@
 import Notiflix from 'notiflix';
-import axios from 'axios';
 import { fetchImages } from './searcher-api';
 import { scroll } from './scrolling';
 import simpleLightbox from 'simplelightbox';
@@ -8,12 +7,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const formEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
-// const iconsPath = {
-//   likes: './images/icons.svg#icon-likes',
-//   views: './images/icons.svg#icon-eye',
-//   comments: './images/icons.svg#icon-comment',
-//   downloads: './images/icons.svg#icon-download',
-// };
 const iconsPath = {
   likes:
     '<path d="M23.6 2c-3.36 0-6.26 2.74-7.6 5.6C14.66 4.73 11.76 2 8.4 2A8.4 8.4 0 0 0 0 10.4c0 9.43 9.52 11.9 16 21.23 6.13-9.27 16-12.1 16-21.23A8.4 8.4 0 0 0 23.6 2z"/>',
@@ -94,27 +87,20 @@ function createCardsInfo(image) {
 
 async function submitForm() {
   try {
-    windowScrollEnd(true);
+    windowScrollEnd(true); // remove scrollEnd from eventListener
     clearGallery();
-    setTimeout(() => {
-      fetchImages(obj.formValue, obj.page)
-        .then(function (response) {
-          if (response.totalHits === 0) {
-            failMessage(true);
-            throw new Error('No images!');
-          }
-          totalMessage(response.totalHits);
-          obj.totalHits = response.totalHits;
-          return response;
-        })
-        .then(function (images) {
-          createGallery(images.hits);
-          obj.page++;
-          obj.galleryLength = galleryEl.childNodes.length;
-          lightbox.refresh();
-          windowScrollMore(false);
-        });
-    }, 1000);
+    const images = await fetchImages(obj.formValue, obj.page);
+    if (images.totalHits === 0) {
+      failMessage(true); // no images
+      throw new Error('No images!');
+    }
+    totalMessage(images.totalHits);
+    obj.totalHits = images.totalHits;
+    createGallery(images.hits);
+    obj.page++;
+    obj.galleryLength = galleryEl.childNodes.length;
+    lightbox.refresh();
+    windowScrollMore(false); // add scrollMore to eventListener
   } catch (e) {
     console.log(e);
   } finally {
@@ -125,24 +111,17 @@ async function submitForm() {
 async function loadMore() {
   try {
     toggleLoader();
-    setTimeout(() => {
-      fetchImages(obj.formValue, obj.page)
-        .then(function (response) {
-          return response;
-        })
-        .then(function (images) {
-          if (obj.totalHits === obj.galleryLength) {
-            failMessage(false);
-            windowScrollMore(true);
-            windowScrollEnd(false);
-            throw new Error('No more images!');
-          }
-          createGallery(images.hits);
-          obj.galleryLength = galleryEl.childNodes.length;
-          lightbox.refresh();
-          obj.page++;
-        });
-    }, 1000);
+    const images = await fetchImages(obj.formValue, obj.page);
+    if (obj.totalHits === obj.galleryLength) {
+      failMessage(false); // no more images to load
+      windowScrollMore(true); // remove scrollMore from eventListner
+      windowScrollEnd(false); // add scrollEnd to eventListener
+      throw new Error('No more images!');
+    }
+    createGallery(images.hits);
+    obj.galleryLength = galleryEl.childNodes.length;
+    lightbox.refresh();
+    obj.page++;
   } catch (e) {
     console.log(e);
   } finally {
@@ -187,8 +166,10 @@ function clearGallery() {
 function windowScrollEnd(remove) {
   if (!remove) {
     window.addEventListener('scroll', scrollEnd);
+    window.addEventListener('touchmove', scrollEnd);
   } else {
     window.removeEventListener('scroll', scrollEnd);
+    window.removeEventListener('touchmove', scrollEnd);
   }
 }
 
