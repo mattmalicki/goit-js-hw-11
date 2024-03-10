@@ -16,6 +16,13 @@ jobs:
           npm ci
           npm run build
 
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          DEFAULT_URL: ${{ secrets.DEFAULT_URL }}
+          IMAGE_TYPE: ${{ secrets.IMAGE_TYPE }}
+          ORIENTATION: ${{ secrets.ORIENTATION }}
+          SAFESEARCH: ${{ secrets.SAFESEARCH }}
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:

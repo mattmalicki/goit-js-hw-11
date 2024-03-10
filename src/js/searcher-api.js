@@ -1,11 +1,12 @@
 import axios from 'axios';
+import 'dotenv/config';
 
-const API_KEY = '38855458-8cac518777b782fa6e9540f58';
-const DEFAULT_URL = 'https://pixabay.com/api/';
-const IMAGE_TYPE = 'photo';
-const ORIENTATION = 'horizontal';
-const SAFESEARCH = 'true';
-const PER_PAGE = '40';
+const API_KEY = process.env.API_KEY;
+const DEFAULT_URL = process.env.DEFAULT_URL;
+const IMAGE_TYPE = process.env.IMAGE_TYPE;
+const ORIENTATION = process.env.ORIENTATION;
+const SAFESEARCH = process.env.SAFESEARCH;
+const PER_PAGE = process.env.PER_PAGE;
 
 export async function fetchImages(q, page) {
   try {
