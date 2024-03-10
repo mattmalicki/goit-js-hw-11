@@ -1,15 +1,12 @@
 .searcher {
   justify-content: center;
   @include phone {
-    height: 200px;
-    padding: 5px;
+    padding: 10px;
   }
   @include tablet {
-    height: 150px;
     padding: 15px;
   }
   @include desktop {
-    height: 300px;
     padding: 15px;
   }
 }
